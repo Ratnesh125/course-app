@@ -44,7 +44,8 @@ function Render(props) {
 }
 function CourseCard(props) {
     return (
-        <Card sx={{ width: 345 }} style={{ margin: 20, height: "100%" }}>
+        // <Grid item lg={8} md={2} sm={2}>
+        <Card sx={{ width: 300 }} style={{ margin: 30, height: "100%" }}>
             <CardMedia
                 component="img"
                 alt={props.title}
@@ -56,18 +57,18 @@ function CourseCard(props) {
                     {props.title}
                 </Typography>
                 <Typography variant="body2" color="text.secondary" style={{ height: 100 }}>
-                    {props.description.length <=250 ? props.description : props.description.substr(0, 250) + "..."}
+                    {props.description.length <= 250 ? props.description : props.description.substr(0, 250) + "..."}
                 </Typography>
             </CardContent>
             <CardActions>
                 <Button size="small"
                     onClick={() => {
-
                     }}>Buy</Button>
                 <Button size="small">Learn More</Button>
             </CardActions>
         </Card>
+        // </Grid>
     );
 }
 
-export default Courses 
+export default Courses  

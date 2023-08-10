@@ -16,20 +16,18 @@ import './app.css';
 function App() {
     const authenticated = Auth();
     return (
-        <div >
-                <Navbar />
-                {/* <Menu /> */}
-                {/* <Courses /> */}
-            <Router> 
-                 <Routes>
-                    <Route path="/signin" element={<Signin />} />
-                    <Route path="/signup" element={<Signup />} />
+        <div>
+            <Navbar />
+            {/* <Courses /> */}
+            <Router>
+                <Routes>
                     <Route path="/admin" element={authenticated ? <Admin /> : <Signin />} />
-                    <Route path="/c" element={<Courses />} /> 
-                    {/* <Route path="/m" element={<Menu />} /> */}
+                    <Route path="/c" element={<Courses />} />
+                    <Route path="/s" element={<Signup />} />
+                    <Route path="/l" element={<Signin />} />
+
                 </Routes>
             </Router>
-            <Footer />
         </div>
     )
 }
