@@ -10,6 +10,13 @@ import Menu from './Menu.jsx';
 import Courses from './Courses.jsx';
 import React from 'react';
 import './app.css';
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
 
 
 
@@ -17,6 +24,7 @@ function App() {
     const authenticated = Auth();
     return (
         <div>
+            <RecoilRoot>
             <Navbar />
             {/* <Courses /> */}
             <Router>
@@ -28,6 +36,7 @@ function App() {
 
                 </Routes>
             </Router>
+            </RecoilRoot>
         </div>
     )
 }

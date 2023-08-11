@@ -53,6 +53,7 @@ const authenticateJwt = (req, res, next) => {
 };
 mongoose.connect(`${DB_URL}/courses`, { useNewUrlParser: true, useUnifiedTopology: true, dbName: "courses" });
 app.post('/authenticate', authenticateJwt, (req, res) => {
+  /* console.log("+1") */
   res.json(true);
 });
 app.post('/admin/signup', (req, res) => {

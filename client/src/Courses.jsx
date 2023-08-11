@@ -5,21 +5,15 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import axios from 'axios';
 
 function useTodos() {
     const [todos, setTodos] = React.useState([]);
     React.useEffect(() => {
-        fetch("http://localhost:3000/admin/courses", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
+        axios.get("http://localhost:3000/admin/courses", null).then((response) => {
 
-            }
-        }).then((response) => {
-            response.json().then((data) => {
-                console.log(data);
-                setTodos(data.courses);
-            })
+            console.log(response.data);
+            setTodos(response.data.courses);
         });
     }, []);
     return todos

@@ -6,6 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import axios from 'axios';
 
 function Signin() {
     const [open, setOpen] = React.useState(false);
@@ -22,25 +23,22 @@ function Signin() {
     };
 
     const handleClickSubmit = () => {
-        fetch("http://localhost:3000/admin/login",
+        axios.post("http://localhost:3000/admin/login",null,
             {
-                method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
                     "username": username,
                     "password": password
                 }
             }
-        ).then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                const token = data.token;
+        ).then((response)=> {
+                console.log(response.data);
+                const token = response.data.token;
                 localStorage.setItem('token', token);
-                if (data.message === 'Logged in successfully') {
+                if (response.data.message === 'Logged in successfully') {
                     window.location = "/admin";
                 }
                 else {
-                    alert(data.message);
+                    alert(response.data.message);
                 }
             }).catch((error) => console.error('Error:', error)).then((req, res) => {
                 console.log("success")

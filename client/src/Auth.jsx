@@ -1,23 +1,23 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Auth = () => {
     const [authenticated, setAuthenticated] = useState(false);
-
+    //need to set body/payload null then header
     useEffect(() => {
-        fetch('http://localhost:3000/authenticate', {
-            method: 'POST',
+        axios.post('http://localhost:3000/authenticate', null, {
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': "Bearer " + localStorage.getItem('token')
-            },
-        }).then((response) => response.json())
-            .then((data) => {
-                setAuthenticated(data);
-            })
-            .catch((error) => console.error('Error:', error));
+            }
+        }).then((response) => {
+            // console.log(response, "hii");
+            setAuthenticated(response.data)
+        })
     }, []);
-    console.log(authenticated)
+    // console.log(authenticated, "true or false")
     return authenticated;
 };
 
 export default Auth;
+
+//bug:sending 4 requests to authenticate one user

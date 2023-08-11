@@ -11,6 +11,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 // import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import axios from 'axios';
 
 function Signup() {
     const [open, setOpen] = React.useState(false);
@@ -27,24 +28,20 @@ function Signup() {
     const [message, setMessage] = React.useState("")
     const handleClickSubmit = () => {
 
-        fetch("http://localhost:3000/admin/signup", {
-            method: "POST",
-            body: JSON.stringify({
+        axios.post("http://localhost:3000/admin/signup",
+            {
                 username,
                 password
-            }),
-            headers: {
-                "Content-Type": "application/json"
             }
-        }).then((response) => response.json())
-            .then((data) => {
-                // console.log(data);
-                const token = data.token;
-                if (token !== undefined || null) {
-                    localStorage.setItem('token', token);
-                }
-                setMessage(data.message);
-            })
+        ).then((response) => {
+            console.log(response);
+            const token = response.data.token;
+            if (token !== undefined || null) {
+                localStorage.setItem('token', token);
+            }
+            setMessage(response.data.message);
+        }).catch(function (err) { setMessage(err.response.data.message) });
+
     }
     return (
         <div>
@@ -53,13 +50,13 @@ function Signup() {
             </Button>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle >signUp</DialogTitle>
-                
-                <DialogContent  style={{ width: 500 }} >
-                    <TextField onChange={(e) => { setUsername(e.target.value) }} fullWidth={true} label="Username" variant="outlined" style={{ marginTop: 5 }}  />
+
+                <DialogContent style={{ width: 500 }} >
+                    <TextField onChange={(e) => { setUsername(e.target.value) }} fullWidth={true} label="Username" variant="outlined" style={{ marginTop: 5 }} />
                     <br /><br />
                     <TextField onChange={(e) => { setPassword(e.target.value) }} fullWidth={true} label="Password" variant="outlined" type="password" />
 
-                    <br /> <br />       
+                    <br /> <br />
                     <Button variant="outlined"
                         onClick={handleClickSubmit}
                     >submit</Button >
