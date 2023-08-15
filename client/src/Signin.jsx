@@ -40,9 +40,7 @@ function Signin() {
                 else {
                     alert(response.data.message);
                 }
-            }).catch((error) => console.error('Error:', error)).then((req, res) => {
-                console.log("success")
-            });
+            }).catch((error) => console.error('Error:', error))
     }
     return (
         <div>
@@ -64,8 +62,6 @@ function Signin() {
                     </Button>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Subscribe</Button>
                 </DialogActions>
             </Dialog>
         </div>

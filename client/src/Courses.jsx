@@ -6,6 +6,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Cookie from 'js-cookie';
 
 function useTodos() {
     const [todos, setTodos] = React.useState([]);
@@ -31,37 +33,52 @@ function Render(props) {
             display: "flex", flexWrap: "wrap", justifyContent: "center"
         }}>
             {props.todos.map((value) => (
-                <CourseCard key={value.id} title={value.title} description={value.description} />
+                <CourseCard key={value.id} title={value.title} description={value.description} price={value.price} lvlOfDiff={value.lvlOfDiff} imageLink={value.imageLink} id={value._id} />
             ))}
         </div>
     );
 }
-function CourseCard(props) {
+export function CourseCard(props) {
+    const navigate = useNavigate()
+
     return (
-        // <Grid item lg={8} md={2} sm={2}>
-        <Card sx={{ width: 300 }} style={{ margin: 30, height: "100%" }}>
+        <Card sx={{ width: 300 }} style={{ margin: 30 }}>
             <CardMedia
                 component="img"
                 alt={props.title}
                 height="140"
-                image={"https://upload.wikimedia.org/wikipedia/commons/4/49/A_black_image.jpg"}
+                image={props.imageLink}
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div" >
                     {props.title}
                 </Typography>
-                <Typography variant="body2" color="text.secondary" style={{ height: 100 }}>
-                    {props.description.length <= 250 ? props.description : props.description.substr(0, 250) + "..."}
+                <Typography variant="body2" color="text.secondary" style={{ height: 80 }}>
+                    {props.description}
+
                 </Typography>
+
+                <Typography>
+                    Price: {props.price}
+                </Typography>
+                <Typography>
+                    level of difficulty: {props.lvlOfDiff}
+                </Typography>
+                id : {props.id}
             </CardContent>
             <CardActions>
-                <Button size="small"
-                    onClick={() => {
-                    }}>Buy</Button>
-                <Button size="small">Learn More</Button>
+
+                <Button size="small" onClick={() => {
+                    Cookie.set('selectedCourse', JSON.stringify({
+                        id: props.id,
+                        title: props.title,
+                        price: props.price,
+                    }));
+                    navigate(`/checkout/${props.id}`)
+                }}>Buy</Button>
+                <Button size="small" onClick={() => { navigate("/payments") }}>Learn More</Button>
             </CardActions>
         </Card>
-        // </Grid>
     );
 }
 

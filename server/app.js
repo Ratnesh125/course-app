@@ -103,6 +103,18 @@ app.get('/admin/courses', async (req, res) => {
   res.json({ courses });
 });
 
+app.get('/admin/course/:title', async (req, res) => {
+  const courseTitle = req.params.title;
+  const courses = await Course.findOne({ title: courseTitle });
+  if (courses) {
+    res.json({ courses });
+  }
+  else {
+    return res.status(404).json({ message: 'Course not found' });
+  }
+});
+
+
 // User routes
 app.post('/users/signup', async (req, res) => {
   const { username, password } = req.body;

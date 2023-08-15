@@ -63,10 +63,6 @@ function Signup() {
                     <h3>{message}</h3>
 
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Subscribe</Button>
-                </DialogActions>
             </Dialog>
         </div>
     );

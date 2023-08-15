@@ -7,79 +7,75 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import axios from 'axios'
+import { CourseCard } from './Courses.jsx';
 
 function Admin() {
     const [title, setTitle] = React.useState("")
     const [description, setDescription] = React.useState("")
+    const [lvlOfDiff, setLevelOfDiff] = React.useState("")
+    const [price, setPrice] = React.useState("")
+    const [imageLink, setImageLink] = React.useState("")
     let date = moment(new Date()).format('DD/MM/YYYY')
-    const [age, setAge] = React.useState('');
     const [response, setResponse] = React.useState("")
     const handleChange = (event) => {
         setAge(event.target.value);
     };
-
+    const inputStyle = { margin: 5, width: 350 };
+    function handleOnClick() {
+        axios.post("http://localhost:3000/admin/courses",
+            {
+                "title": title,
+                "description": description,
+                "lvlOfDiff": lvlOfDiff,
+                "date": date,
+                "price": price,
+                "imageLink": imageLink
+            },
+            {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem('token'),
+                }
+            }
+        ).then((response) => {
+            setResponse(response.data.message);
+        }).catch((error) => {
+            setResponse(error.message);
+        });
+    }
+    const courses = [
+        {
+            title: title,
+            description: description,
+            lvlOfDiff: lvlOfDiff,
+            price: price,
+            imageLink: imageLink
+        }
+    ];
     return (
-        <div >
-
+        <div style={{ display: "flex", justifyContent: "space-evenly", margin: 15 }}  >
             <center>
                 <Card variant={"outlined"} style={{ width: 400, height: 500, paddingTop: 0 }}>
-                    <div >
-                        <span style={{ fontSize: 20 }}>AddNewCourse</span >
-                    </div>
-                    <div>
-                        <TextField label="CourseTitle" variant="outlined" style={{ margin: 5, width: 350 }}
-                            onChange={(e) => { setTitle(e.target.value) }} />
-                        <br />
-                        <TextField label="CourseDescription" variant="outlined" style={{ margin: 5, width: 350 }}
-                            onChange={(e) => { setDescription(e.target.value) }} />
-                        <br />
-                        <InputLabel >CourseLevelOfDifficulty</InputLabel>
-                        <Select
-                            value={age}
-                            onChange={handleChange}
-
-                            style={{ margin: 5, width: 350 }}
-                        >
-                            <MenuItem value={10}>Easy to medium</MenuItem>
-                            <MenuItem value={20}>medium to hard</MenuItem>
-                            <MenuItem value={30}>easy to hard</MenuItem>
-                        </Select>
-                        <br />
-                        <TextField label="CoursePrice" variant="outlined" style={{ margin: 5, width: 350 }}
-                            onChange={(e) => { setDescription(e.target.price) }} />
-                        <br />
-                        <TextField label="ImageLink" variant="outlined" style={{ margin: 5, width: 350 }}
-                            onChange={(e) => { setDescription(e.target.value) }} />
-                    </div>
-                    <div>
-                        <Button variant="outlined" style={{ marginTop: 5 }}
-                            onClick={() => {
-                                axios.post("http://localhost:3000/admin/courses",
-                                    {
-                                        "title": title,
-                                        "description": description,
-                                        "lvlOfDiff": "easy medium hard",
-                                        "date": date,
-                                        "price": 5000,
-                                        "imageLink": "abc.jpg"
-                                    },
-                                    {
-                                        headers: {
-                                            "Authorization": "Bearer " + localStorage.getItem('token'),
-                                        }
-                                    }
-                                ).then((response) => {
-                                    setResponse(response.data.message);
-                                }).catch((error) => {
-                                    setResponse(error.message);
-                                });
-
-                            }
-                            }>add</Button>
-                        <h3>{response}</h3>
-                    </div>
+                    <span style={{ fontSize: 20 }}>AddNewCourse</span >
+                    <TextField required={true} label="Title" variant="outlined" style={inputStyle}
+                        onChange={(e) => { setTitle(e.target.value) }} />
+                    <TextField label="Description" variant="outlined" style={inputStyle}
+                        onChange={(e) => { setDescription(e.target.value) }} />
+                    <TextField label="level of difficuty" variant="outlined" style={inputStyle}
+                        onChange={(e) => { setLevelOfDiff(e.target.value) }} />
+                    <TextField label="Price" variant="outlined" style={inputStyle}
+                        onChange={(e) => { setPrice(e.target.value) }} />
+                    <TextField label="ImageLink" variant="outlined" style={inputStyle}
+                        onChange={(e) => { setImageLink(e.target.value) }} />
+                    <Button variant="outlined"
+                        onClick={handleOnClick}>add</Button>
+                    <h3>{response}</h3>
                 </Card>
             </center>
+            <div>
+                {courses.map((course) => (
+                    <CourseCard key={course.id} title={course.title} description={course.description} lvlOfDiff={course.lvlOfDiff} price={course.price} />
+                ))}
+            </div>
         </div>
     );
 }
