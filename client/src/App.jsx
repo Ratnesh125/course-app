@@ -10,7 +10,6 @@ import Navbar from './components/header/Navbar.jsx';
 import Signup from './components/auth/Signup.jsx';
 import Signin from './components/auth/Signin.jsx';
 import Admin from './components/admin/Admin.jsx';
-import Menu from './Menu.jsx';
 import Courses from './components/home/Courses.jsx';
 import React from 'react';
 import Login from './components/auth/Login.jsx';
