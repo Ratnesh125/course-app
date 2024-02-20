@@ -202,4 +202,4 @@ app.get('/users/purchasedCourses', authenticateJwt, async (req, res) => {
   }
 });
 
-app.listen(3001, () => console.log('hcourse Server running on port 3000'));
+app.listen(3000, () => console.log('hcourse Server running on port 3000'));
