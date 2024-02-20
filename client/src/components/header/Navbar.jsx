@@ -1,9 +1,9 @@
 import Button from "@mui/material/Button";
 import React from 'react';
-import Menu from './Menu.jsx';
-import Signin from "./Signin.jsx";
-import Signup from "./Signup.jsx";
-import Auth from "./Auth.jsx";
+import Menu from '../../Menu.jsx';
+import Signin from "../auth/Signin.jsx";
+import Signup from "../auth/Signup.jsx";
+import Auth from "../auth/Auth.jsx";
 import Cookie from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ function Navbar() {
         }}>
             <div style={{ display: "flex", justifyContent: "space-around", marginLeft: 10, paddingTop: 10 }}>
                 <Menu />
-                <span style={{ fontSize: 30 }}>Coursera</span>
+                <span style={{ fontSize: 30 }} className="text-sm">Coursera</span>
             </div>
 
             {!authenticated && (

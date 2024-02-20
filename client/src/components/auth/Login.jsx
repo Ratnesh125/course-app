@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { usernameSelector, passwordSelector } from '../store/atoms';
+import { usernameSelector, passwordSelector } from '../../../store/atoms';
 
 function Login() {
     const [username, setUsername] = useRecoilState(usernameSelector);
@@ -16,7 +16,7 @@ function Login() {
     return (
         <div>
             <h1>Login</h1>
-            
+
             <div>
                 <label>Username:</label>
                 <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />

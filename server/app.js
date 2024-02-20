@@ -30,11 +30,32 @@ const courseSchema = new mongoose.Schema({
   imageLink: String,
   published: Boolean
 });
+const portfolioSchema = new mongoose.Schema({
+  greet: String,
+  name: String,
+  role: String,
+  profileImageLink: String,
+  //icons image link 
+  icon1: String,
+  icon2: String,
+  icon3: String,
+  icon4: String,
+  //profile links
+  icon1Link: String,
+  icon2Link: String,
+  icon3Link: String,
+  icon4Link: String,
+  //about me
+  aboutText: String,
+  aboutCvLink: String,
+  aboutImageLink: String,
+});
 
 // Define mongoose models
 const User = mongoose.model('User', userSchema);
 const Admin = mongoose.model('Admin', adminSchema);
 const Course = mongoose.model('Course', courseSchema);
+const Portfolio = mongoose.model('Portfolio', portfolioSchema);
 
 const authenticateJwt = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -52,10 +73,20 @@ const authenticateJwt = (req, res, next) => {
   }
 };
 mongoose.connect(`${DB_URL}/courses`, { useNewUrlParser: true, useUnifiedTopology: true, dbName: "courses" });
+
+app.put('/portfolio/:id', async (req, res) => {
+  const portfolio = await Portfolio.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  if (portfolio) {
+    res.json({ message: 'portfolio updated successfully' });
+  } else {
+    res.status(404).json({ message: 'Portfolio not found' });
+  }
+});
+
 app.post('/authenticate', authenticateJwt, (req, res) => {
-  /* console.log("+1") */
   res.json(true);
 });
+
 app.post('/admin/signup', (req, res) => {
   const { username, password } = req.body;
   function callback(admin) {
@@ -171,4 +202,4 @@ app.get('/users/purchasedCourses', authenticateJwt, async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log('Server running on port 3000'));
+app.listen(3001, () => console.log('hcourse Server running on port 3000'));

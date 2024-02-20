@@ -8,7 +8,7 @@ function CheckoutPage() {
     console.log(decodedCourse.id, "decoded");
 
     return (
-        <div>
+        <div className='border-4 border-gray-800 w-1/4'>
             <h2>Checkout:</h2>
             <p>CourseId: {decodedCourse.id}</p>
             <p>CourseTitle: {decodedCourse.title}</p>

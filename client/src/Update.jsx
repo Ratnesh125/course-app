@@ -7,7 +7,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import axios from 'axios'
-import { CourseCard } from './Courses.jsx';
+import { CourseCard } from './components/home/Courses.jsx';
 import { useParams } from 'react-router-dom'
 
 
