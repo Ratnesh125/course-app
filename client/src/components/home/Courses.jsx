@@ -6,10 +6,12 @@ import Cookie from 'js-cookie';
 function useTodos() {
     const [todos, setTodos] = React.useState([]);
     React.useEffect(() => {
-        axios.get(`${import.meta.env.VITE_API_BASE_URL}/admin/courses`, null).then((response) => {
-            console.log(response.data);
-            setTodos(response.data.courses);
-        });
+        axios.get(`${import.meta.env.VITE_API_BASE_URL}/admin/courses`)
+            .then((response) => {
+                console.log(response.data);
+                setTodos(response.data.courses);
+            })
+            .catch((error) => console.error('Error fetching courses:', error));
     }, []);
     return todos;
 }
@@ -21,7 +23,7 @@ function Courses(props) {
 
 function Render(props) {
     return (
-        <div className="flex flex-wrap justify-center">
+        <div className="flex flex-wrap justify-center gap-6 p-4">
             {props.todos.map((value) => (
                 <CourseCard
                     key={value.id}
@@ -40,46 +42,80 @@ function Render(props) {
 
 export function CourseCard(props) {
     const navigate = useNavigate();
+    const [cartText, setCartText] = React.useState("Add to Cart")
+
+
+    const handleAddToCart = () => {
+        // Create an object for the course data
+        const courseData = {
+            id: props.id,
+            title: props.title,
+            description: props.description,
+            lvlOfDiff: props.lvlOfDiff,
+            imageLink: props.imageLink,
+            price: props.price,
+        };
+
+        const savedCart = localStorage.getItem('cart');
+        const cart = savedCart ? JSON.parse(savedCart) : [];
+        const existingItemIndex = cart.findIndex(item => item.id === courseData.id);
+
+        if (existingItemIndex !== -1) {
+        } else {
+            cart.push(courseData);
+        }
+        console.log(cart)
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+    };
+
 
     return (
-        <div className={`mx-4 my-6 overflow-hidden bg-white rounded-lg shadow-lg ${props.className} `}>
-
+        <div className={`max-w-sm w-full bg-white rounded-lg shadow-md overflow-hidden ${props.className}`}>
             <img
-                className="object-cover w-full h-40 sm:h-48 md:h-40 lg:h-52 xl:h-28 "
+                className="w-full h-40 sm:h-48 object-cover"
                 src={props.imageLink}
                 alt={props.title}
             />
-            <div className="px-6 py-4 h-full bg-neutral-200 overflow-hidden ">
-                <div className="text-xl font-bold" >{props.title}</div>
-                <p className="text-gray-700 " >{props.description}</p>
-                <p className="mt-2 text-sm">Price: {props.price}</p>
-                <p className="text-sm">Level of Difficulty: {props.lvlOfDiff}</p>
-                <p className="text-sm">ID: {props.id}</p>
-            </div>
-            <div className="flex justify-between px-6 py-4 bg-gray-800">
-                <button
-                    onClick={() => {
-                        Cookie.set('selectedCourse', JSON.stringify({
-                            id: props.id,
-                            title: props.title,
-                            description: props.description,
-                            lvlOfDiff: props.lvlOfDiff,
-                            imageLink: props.imageLink,
-                            price: props.price,
-
-                        }));
-                        navigate(`/checkout/${props.id}`);
-                    }}
-                    className="px-8 py-2 text-white bg-blue-500 rounded-full hover:bg-blue-600"
-                >
-                    Buy
-                </button>
-                <button
-                    onClick={() => navigate("/payments")}
-                    className="px-4 py-2 text-white bg-green-500 rounded-full hover:bg-green-600"
-                >
-                    Learn More
-                </button>
+            <div className="p-6 bg-gray-50">
+                <h3 className="text-xl font-semibold mb-2">{props.title}</h3>
+                <p className="text-gray-700 mb-4">{props.description}</p>
+                <p className="text-sm mb-2">Price: ${props.price}</p>
+                <p className="text-sm mb-2">Level of Difficulty: {props.lvlOfDiff}</p>
+                <p className="text-sm mb-4">ID: {props.id}</p>
+                <div className="flex justify-between">
+                    <button
+                        onClick={() => {
+                            Cookie.set('selectedCourse', JSON.stringify({
+                                id: props.id,
+                                title: props.title,
+                                description: props.description,
+                                lvlOfDiff: props.lvlOfDiff,
+                                imageLink: props.imageLink,
+                                price: props.price,
+                            }));
+                            navigate(`/checkout/${props.id}`);
+                        }}
+                        className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+                    >
+                        Buy
+                    </button>
+                    <button
+                        onClick={() => {
+                            handleAddToCart();
+                            setCartText("Added")
+                        }}
+                        className="px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 transition duration-300"
+                    >
+                        {cartText}
+                    </button>
+                    <button
+                        onClick={() => navigate(`/course/${props.id}`)}
+                        className="px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 transition duration-300"
+                    >
+                        Learn More
+                    </button>
+                </div>
             </div>
         </div>
     );
