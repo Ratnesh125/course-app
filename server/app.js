@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
 const dotenv = require('dotenv').config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET);
+app.use(express.static('public'));
 app.use(cors())
 app.use(express.json());
 
@@ -202,4 +204,35 @@ app.get('/users/purchasedCourses', authenticateJwt, async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log('hcourse Server running on port 3000'));
+app.post('/create-checkout-session', async (req, res) => {
+  const { products } = req.body;
+
+  try {
+    const lineItems = products.map(product => ({
+      price_data: {
+        currency: "inr",
+        product_data: {
+          name: product.title,
+          images: [product.imageLink],
+        },
+        unit_amount: product.price * 100,
+      },
+      quantity: product.quantity || 1,
+    }));
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: lineItems,
+      mode: "payment",
+      success_url: `${CLIENT_DOMAIN}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${CLIENT_DOMAIN}/cancel.html`,
+    });
+
+    res.json({ id: session.id });
+  } catch (error) {
+    console.error('Error creating checkout session:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.listen(3000, () => console.log('course Server running on port 3000'));

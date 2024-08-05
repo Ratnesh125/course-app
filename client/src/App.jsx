@@ -27,7 +27,7 @@ function App() {
     
     return (
         <div className='max-sm max-md max-lg max-xl max-2xl'>
-            <RecoilRoot>
+            <RecoilRoot>z
                 <Router>
                     <Routes >
                         <Route path="/" element={<Layout />} >

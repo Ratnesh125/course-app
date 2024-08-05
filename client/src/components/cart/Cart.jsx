@@ -1,8 +1,9 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { loadStripe } from '@stripe/stripe-js';
+import axios from 'axios';
+
 
 function Cart() {
-    const navigate = useNavigate();
     const [cartItems, setCartItems] = React.useState([]);
     const [totalPrice, setTotalPrice] = React.useState(0);
 
@@ -30,8 +31,39 @@ function Cart() {
         setTotalPrice(0);
     };
 
-    const handleCheckout = () => {
-        navigate('/checkout');
+
+    const handleCheckout = async () => {
+        const stripe = await loadStripe(import.meta.env.VITE_API_STRIPE_PUBLIC_KEY); 
+        const body = {
+            products: cartItems,
+        };
+
+        try {
+            // Create a checkout session
+            const response = await axios.post(
+                `${import.meta.env.VITE_API_BASE_URL}/create-checkout-session`,
+                body,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            // Access the session ID directly from the response data
+            const { id: sessionId } = response.data;
+
+            // Redirect to Stripe Checkout
+            const { error } = await stripe.redirectToCheckout({
+                sessionId,
+            });
+
+            if (error) {
+                console.error('Error redirecting to checkout:', error);
+            }
+        } catch (error) {
+            console.error('Error creating checkout session:', error);
+        }
     };
 
     return (
