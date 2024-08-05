@@ -19,7 +19,7 @@ function Signin() {
                 const token = response.data.token;
                 localStorage.setItem('token', token);
                 if (response.data.message === 'Logged in successfully') {
-                    window.location = "/admin";
+                    window.location = "/";
                 }
                 else {
                     alert(response.data.message);
