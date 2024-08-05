@@ -9,7 +9,7 @@ function Signup() {
     const navigate = useNavigate();
     const handleClickSubmit = () => {
 
-        axios.post(`${process.env.BASE_URL}/admin/signup`,
+        axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin/signup`,
             {
                 username,
                 password

@@ -5,7 +5,7 @@ const Auth = () => {
     const [authenticated, setAuthenticated] = useState(false);
     //need to set body/payload null then header
     useEffect(() => {
-        axios.post(`${process.env.BASE_URL}/authenticate`, null, {
+        axios.post(`${import.meta.env.VITE_API_BASE_URL}/authenticate`, null, {
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem('token')
             }

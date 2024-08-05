@@ -12,7 +12,7 @@ function Admin() {
     const [response, setResponse] = React.useState("")
 
     function handleOnClick() {
-        axios.post(`${process.env.BASE_URL}/admin/courses`,
+        axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin/courses`,
             {
                 "title": title,
                 "description": description,

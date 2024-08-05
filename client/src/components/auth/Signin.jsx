@@ -7,7 +7,7 @@ function Signin() {
     const [password, setPassword] = React.useState("")
 
     const handleClickSubmit = () => {
-        axios.post(`${process.env.BASE_URL}/admin/login`,null,
+        axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin/login`,null,
             {
                 headers: {
                     "username": username,

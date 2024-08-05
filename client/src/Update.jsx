@@ -26,7 +26,7 @@ function Update() {
     const inputStyle = { margin: 5, width: 350 };
     async function handleOnClick() {
         console.log(idtoupdate, "here");
-        const response = await axios.put(`${process.env.BASE_URL}/admin/courses/${idtoupdate}`,
+        const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/admin/courses/${idtoupdate}`,
             {
                 "title": title,
                 "description": description,
@@ -49,7 +49,7 @@ function Update() {
     console.log(courseId);
     React.useEffect(() => {
         console.log(courseId)
-        axios.get(`${process.env.BASE_URL}/admin/course/${courseId}`, null).then((response) => {
+        axios.get(`${import.meta.env.VITE_API_BASE_URL}     /admin/course/${courseId}`, null).then((response) => {
 
             console.log(response.data.courses, "hi");
             setCourse(response.data.courses);
