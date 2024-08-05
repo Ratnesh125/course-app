@@ -7,7 +7,7 @@ function Home() {
             <div className='flex flex-col bg-gray-200 '>
                 <div className="relative border-8 ">
                     <img
-                        src="/src/assets/offers/republic_day_sale.jpg"
+                        src="https://img.freepik.com/free-vector/flat-india-republic-day-celebration-sale-banner-template_23-2149954839.jpg?t=st=1722850793~exp=1722854393~hmac=5fd3d2c156e1e1b9c0e23f66ba9032b808246e21ffd80a8f07de487f62f97ba8&w=826"
                         alt="Sale Offer"
                         className="object-center "
                     />
