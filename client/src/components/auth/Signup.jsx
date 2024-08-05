@@ -9,7 +9,7 @@ function Signup() {
     const navigate = useNavigate();
     const handleClickSubmit = () => {
 
-        axios.post("http://localhost:3000/admin/signup",
+        axios.post(`${process.env.BASE_URL}/admin/signup`,
             {
                 username,
                 password

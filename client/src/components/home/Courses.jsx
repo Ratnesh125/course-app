@@ -6,7 +6,7 @@ import Cookie from 'js-cookie';
 function useTodos() {
     const [todos, setTodos] = React.useState([]);
     React.useEffect(() => {
-        axios.get("http://localhost:3000/admin/courses", null).then((response) => {
+        axios.get(`${process.env.BASE_URL}/admin/courses`, null).then((response) => {
             console.log(response.data);
             setTodos(response.data.courses);
         });

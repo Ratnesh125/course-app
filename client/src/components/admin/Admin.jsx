@@ -12,7 +12,7 @@ function Admin() {
     const [response, setResponse] = React.useState("")
 
     function handleOnClick() {
-        axios.post("http://localhost:3000/admin/courses",
+        axios.post(`${process.env.BASE_URL}/admin/courses`,
             {
                 "title": title,
                 "description": description,

@@ -5,7 +5,7 @@ const Auth = () => {
     const [authenticated, setAuthenticated] = useState(false);
     //need to set body/payload null then header
     useEffect(() => {
-        axios.post('http://localhost:3000/authenticate', null, {
+        axios.post(`${process.env.BASE_URL}/authenticate`, null, {
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem('token')
             }
