@@ -131,12 +131,12 @@ app.put('/admin/courses/:courseId', authenticateJwt, async (req, res) => {
   }
 });
 
-app.get('/admin/courses', authenticateJwt, async (req, res) => {
+app.get('/admin/courses', async (req, res) => {
   const courses = await Course.find({});
   res.json({ courses });
 });
 
-app.get('/admin/course/:title', authenticateJwt, async (req, res) => {
+app.get('/admin/course/:title', async (req, res) => {
   const courseTitle = req.params.title;
   const courses = await Course.findOne({ title: courseTitle });
   if (courses) {
@@ -173,7 +173,7 @@ app.post('/users/login', async (req, res) => {
   }
 });
 
-app.get('/users/courses', authenticateJwt, async (req, res) => {
+app.get('/users/courses', async (req, res) => {
   const courses = await Course.find({ published: true });
   res.json({ courses });
 });
@@ -195,7 +195,7 @@ app.post('/users/courses/:courseId', authenticateJwt, async (req, res) => {
   }
 });
 
-app.get('/users/purchasedCourses', async (req, res) => {
+app.get('/users/purchasedCourses', authenticateJwt, async (req, res) => {
   const user = await User.findOne({ username: req.user.username }).populate('purchasedCourses');
   if (user) {
     res.json({ purchasedCourses: user.purchasedCourses || [] });
