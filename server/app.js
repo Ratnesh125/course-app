@@ -195,7 +195,7 @@ app.post('/users/courses/:courseId', authenticateJwt, async (req, res) => {
   }
 });
 
-app.get('/users/purchasedCourses', authenticateJwt, async (req, res) => {
+app.get('/users/purchasedCourses', async (req, res) => {
   const user = await User.findOne({ username: req.user.username }).populate('purchasedCourses');
   if (user) {
     res.json({ purchasedCourses: user.purchasedCourses || [] });
@@ -224,13 +224,8 @@ app.post('/create-checkout-session', authenticateJwt, async (req, res) => {
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-<<<<<<< HEAD
       success_url: `${process.env.CLIENT_DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.CLIENT_DOMAIN}/cancel`,
-=======
-      success_url: `${process.env.CLIENT_DOMAIN}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.CLIENT_DOMAIN}/cancel.html`,
->>>>>>> 78d909db17d49d399f57bda563623cfb7280b9e8
     });
     console.log(session)
     res.json({ id: session.id });
