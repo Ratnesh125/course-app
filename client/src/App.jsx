@@ -14,17 +14,19 @@ import React from 'react';
 import Login from './components/auth/Login.jsx';
 // import './app.css';
 import Update from './Update.jsx';
-import CheckoutPage from './components/payments/CheckoutPage.jsx';
 import About from './components/about/About.jsx';
 import NotFound from "./components/notfound/NotFound.jsx";
 import Layout from './Layout.jsx';
 import Home from './components/home/Home.jsx';
 import Header from './components/header/Header.jsx';
 import Cart from './components/cart/Cart.jsx';
+import SuccessPage from './components/payments/SuccessPage.jsx';
+import CancelPage from './components/payments/CancelPage.jsx';
+import Purchases from './components/purchases/Purchases.jsx';
 
 
 function App() {
-    
+
     return (
         <div className='max-sm max-md max-lg max-xl max-2xl'>
             <RecoilRoot>z
@@ -41,8 +43,10 @@ function App() {
                             <Route path="about" element={<About />} />
                             <Route path="header" element={<Header />} />
                             <Route path="cart" element={<Cart />} />
-                            <Route path="checkout/:courseId" element={<CheckoutPage />} />
+                            <Route path="purchases" element={<Purchases />} />
                         </Route>
+                        <Route path="success" element={<SuccessPage />} />
+                        <Route path="cancel" element={<CancelPage />} />
 
                         <Route path="*" element={<NotFound />} />
                     </Routes>

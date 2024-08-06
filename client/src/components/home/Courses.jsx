@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Cookie from 'js-cookie';
 
 function useTodos() {
     const [todos, setTodos] = React.useState([]);
@@ -83,23 +82,8 @@ export function CourseCard(props) {
                 <p className="text-sm mb-2">Price: ${props.price}</p>
                 <p className="text-sm mb-2">Level of Difficulty: {props.lvlOfDiff}</p>
                 <p className="text-sm mb-4">ID: {props.id}</p>
-                <div className="flex justify-between">
-                    <button
-                        onClick={() => {
-                            Cookie.set('selectedCourse', JSON.stringify({
-                                id: props.id,
-                                title: props.title,
-                                description: props.description,
-                                lvlOfDiff: props.lvlOfDiff,
-                                imageLink: props.imageLink,
-                                price: props.price,
-                            }));
-                            navigate(`/checkout/${props.id}`);
-                        }}
-                        className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
-                    >
-                        Buy
-                    </button>
+                <div className="flex justify-evenly">
+                    
                     <button
                         onClick={() => {
                             handleAddToCart();

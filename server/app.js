@@ -131,12 +131,12 @@ app.put('/admin/courses/:courseId', authenticateJwt, async (req, res) => {
   }
 });
 
-app.get('/admin/courses', async (req, res) => {
+app.get('/admin/courses', authenticateJwt, async (req, res) => {
   const courses = await Course.find({});
   res.json({ courses });
 });
 
-app.get('/admin/course/:title', async (req, res) => {
+app.get('/admin/course/:title', authenticateJwt, async (req, res) => {
   const courseTitle = req.params.title;
   const courses = await Course.findOne({ title: courseTitle });
   if (courses) {
@@ -204,9 +204,9 @@ app.get('/users/purchasedCourses', authenticateJwt, async (req, res) => {
   }
 });
 
-app.post('/create-checkout-session', async (req, res) => {
+app.post('/create-checkout-session', authenticateJwt, async (req, res) => {
   const { products } = req.body;
-
+  console.log(products)
   try {
     const lineItems = products.map(product => ({
       price_data: {
@@ -224,10 +224,10 @@ app.post('/create-checkout-session', async (req, res) => {
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `${CLIENT_DOMAIN}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${CLIENT_DOMAIN}/cancel.html`,
+      success_url: `${process.env.CLIENT_DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.CLIENT_DOMAIN}/cancel`,
     });
-
+    console.log(session)
     res.json({ id: session.id });
   } catch (error) {
     console.error('Error creating checkout session:', error);

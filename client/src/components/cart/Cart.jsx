@@ -1,11 +1,12 @@
 import React from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
-
+import Auth from '../auth/Auth';
 
 function Cart() {
     const [cartItems, setCartItems] = React.useState([]);
     const [totalPrice, setTotalPrice] = React.useState(0);
+    const authStatus = Auth();
 
     React.useEffect(() => {
         const savedCart = localStorage.getItem('cart');
@@ -33,7 +34,11 @@ function Cart() {
 
 
     const handleCheckout = async () => {
-        const stripe = await loadStripe(import.meta.env.VITE_API_STRIPE_PUBLIC_KEY); 
+        if (authStatus != 1) {
+            alert("Please SignIn to Checkout and procced with payments")
+            return
+        }
+        const stripe = await loadStripe(import.meta.env.VITE_API_STRIPE_PUBLIC_KEY);
         const body = {
             products: cartItems,
         };
@@ -46,10 +51,11 @@ function Cart() {
                 {
                     headers: {
                         'Content-Type': 'application/json',
+                        "Authorization": "Bearer " + localStorage.getItem('token'),
                     },
                 }
             );
-
+            
             // Access the session ID directly from the response data
             const { id: sessionId } = response.data;
 

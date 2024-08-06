@@ -31,7 +31,7 @@ function Signin() {
         <div class="bg-neutral-400 min-h-screen flex flex-col">
             <div class="container max-w-lg mx-auto border-solid border-black flex-1 flex flex-col items-center justify-center px-2">
                 <div class="bg-green-300 px-6 py-8 rounded text-black w-full">
-                    <h1 class="mb-8 text-3xl text-center">Sign in</h1>
+                    <h1 class="mb-8 text-3xl text-center">Sign inn</h1>
                     <input
                         type="text"
                         class="block border border-grey-light w-full p-3 rounded mb-4"
